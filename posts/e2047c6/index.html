@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="referrer" content="no-referrer" />
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+  <meta name="baidu-site-verification" content="DZuSb7rHBzd9CBVO">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-corner-indicator.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":true,"style":"default"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="工具及用途 fiddler抓包，分析网络流量，劫持请求和响应 一个好用的文本编辑器或者IDE，比如notepad++或者vs code nodejs或者python或者java或者其他，选一种你喜欢的编程语言来写服务器端应用  准备 先去高德地图开放平台申请一个Web端应用，得到key  然后参考文档快速的写一个简单的定位的网页，为了节约时间，我这里给出一个简单的示例demo，使用时将下面的代码保">
+<meta name="keywords" content="fiddler,劫持,伪装位置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实战fiddler劫持高德地图api伪装位置">
+<meta property="og:url" content="https://blog.zimo.wiki/posts/e2047c6/index.html">
+<meta property="og:site_name" content="子墨的博客">
+<meta property="og:description" content="工具及用途 fiddler抓包，分析网络流量，劫持请求和响应 一个好用的文本编辑器或者IDE，比如notepad++或者vs code nodejs或者python或者java或者其他，选一种你喜欢的编程语言来写服务器端应用  准备 先去高德地图开放平台申请一个Web端应用，得到key  然后参考文档快速的写一个简单的定位的网页，为了节约时间，我这里给出一个简单的示例demo，使用时将下面的代码保">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/e2047c6/2020-10-21-23-12-17.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/e2047c6/2020-10-22-11-10-56.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/e2047c6/2020-10-22-15-11-31.png">
+<meta property="og:updated_time" content="2022-05-04T02:56:01.398Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="实战fiddler劫持高德地图api伪装位置">
+<meta name="twitter:description" content="工具及用途 fiddler抓包，分析网络流量，劫持请求和响应 一个好用的文本编辑器或者IDE，比如notepad++或者vs code nodejs或者python或者java或者其他，选一种你喜欢的编程语言来写服务器端应用  准备 先去高德地图开放平台申请一个Web端应用，得到key  然后参考文档快速的写一个简单的定位的网页，为了节约时间，我这里给出一个简单的示例demo，使用时将下面的代码保">
+<meta name="twitter:image" content="https://blog.zimo.wiki/posts/e2047c6/2020-10-21-23-12-17.png">
+  <link rel="alternate" href="/atom.xml" title="子墨的博客" type="application/atom+xml">
+  <link rel="canonical" href="https://blog.zimo.wiki/posts/e2047c6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>实战fiddler劫持高德地图api伪装位置 | 子墨的博客</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7f74197855659515fce98a69a3bcd36f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  
+    <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+    <script type="text/javascript" src="/js/anime.min.js"></script> 
+    <script type="text/javascript" src="/js/fireworks.js"></script>
+  
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">子墨的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">总得让实力配上野心</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">71</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">16</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">29</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/ZimoLoveShuang" class="github-corner" title="Follow me on Github" aria-label="Follow me on Github" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.zimo.wiki/posts/e2047c6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="子墨">
+      <meta itemprop="description" content="子墨的博客">
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="子墨的博客">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">实战fiddler劫持高德地图api伪装位置
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-thumb-tack"></i>
+              </span>
+              <span class="post-meta-item-text"></span>
+              <time title="置顶" itemprop="置顶" datetime="2020-10-21T14:21:49+00:00" style="color:#7D26CD;">置顶</time>
+             </span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-10-21 22:21:49" itemprop="dateCreated datePublished" datetime="2020-10-21T22:21:49+08:00">2020-10-21</time>
+            </span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/抓包/" itemprop="url" rel="index"><span itemprop="name">抓包</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>11k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>10 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="工具及用途"><a href="#工具及用途" class="headerlink" title="工具及用途"></a>工具及用途</h2><ol>
+<li><code>fiddler</code>抓包，分析网络流量，劫持请求和响应</li>
+<li>一个好用的文本编辑器或者<code>IDE</code>，比如<code>notepad++</code>或者<code>vs code</code></li>
+<li><code>nodejs</code>或者<code>python</code>或者<code>java</code>或者其他，选一种你喜欢的编程语言来写服务器端应用</li>
+</ol>
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><ol>
+<li><p>先去<a href="https://lbs.amap.com/" target="_blank" rel="noopener">高德地图开放平台</a>申请一个<code>Web端应用</code>，得到<code>key</code></p>
+</li>
+<li><p>然后参考<a href="https://lbs.amap.com/api/javascript-api/summary" target="_blank" rel="noopener">文档</a>快速的写一个简单的定位的网页，为了节约时间，我这里给出一个简单的示例demo，使用时将下面的代码保存到本地，可以命名为<code>a.html</code>或者其他，然后将自己申请好的<code>key</code>，填入源代码对应位置</p>
+ <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span> <span class="attr">id</span>=<span class="string">"showLocation"</span>&gt;</span>获取定位中。。。<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://webapi.amap.com/loader.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line">    AMapLoader.load(&#123;</span><br><span class="line">        "key": "申请好的Web端开发者Key",              // 申请好的Web端开发者Key，首次调用 load 时必填</span><br><span class="line">        "version": "1.4.15",   // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15</span><br><span class="line">        "plugins": [],           // 需要使用的的插件列表，如比例尺'AMap.Scale'等</span><br><span class="line">        "AMapUI": &#123;             // 是否加载 AMapUI，缺省不加载</span><br><span class="line">            "version": '1.1',   // AMapUI 缺省 1.1</span><br><span class="line">            "plugins": ['overlay/SimpleMarker'],       // 需要加载的 AMapUI ui插件</span><br><span class="line">        &#125;,</span><br><span class="line">        "Loca": &#123;                // 是否加载 Loca， 缺省不加载</span><br><span class="line">            "version": '1.3.2'  // Loca 版本，缺省 1.3.2</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;).then((AMap) =&gt; &#123;</span><br><span class="line">        AMap.plugin('AMap.Geolocation', function () &#123;</span><br><span class="line">            var geolocation = new AMap.Geolocation(&#123;</span><br><span class="line">                // 是否使用高精度定位，默认：true</span><br><span class="line">                enableHighAccuracy: true,</span><br><span class="line">                // 定位按钮的停靠位置的偏移量，默认：Pixel(10, 20)</span><br><span class="line">                buttonOffset: new AMap.Pixel(10, 20),</span><br><span class="line">                //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false</span><br><span class="line">                zoomToAccuracy: true,</span><br><span class="line">                //  定位按钮的排放位置,  RB表示右下</span><br><span class="line">                buttonPosition: 'RB'</span><br><span class="line">            &#125;)</span><br><span class="line"></span><br><span class="line">            geolocation.getCurrentPosition(function (status, result) &#123;</span><br><span class="line">                if (status == 'complete') &#123;</span><br><span class="line">                    onComplete(result)</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    onError(result)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            function onComplete(data) &#123;</span><br><span class="line">                // data是具体的定位信息</span><br><span class="line">                console.log('定位成功')</span><br><span class="line">                document.getElementById('showLocation').innerText = data.formattedAddress</span><br><span class="line">                console.log(JSON.stringify(data))</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            function onError(data) &#123;</span><br><span class="line">                // 定位出错</span><br><span class="line">                console.log('定位出错')</span><br><span class="line">                console.log(data)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;).catch((e) =&gt; &#123;</span><br><span class="line">        console.log(e);  //加载错误提示</span><br><span class="line">    &#125;);</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后双击使用浏览器打开该<code>html</code>文件，推荐<code>chorme浏览器</code>，不出意外的话（定位是个耗时操作，可能需要等一下），你应该可以看到类似下面这样的网页，没什么特别的，就是定位到了你的当前位置（小声bb：当然，我这是伪装过的）<br><img src="/posts/e2047c6/2020-10-21-23-12-17.png" alt="a.html获取到的当前位置"></p>
+</li>
+</ol>
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><h3 id="配置fiddler"><a href="#配置fiddler" class="headerlink" title="配置fiddler"></a>配置fiddler</h3><p>打开<code>fiddler</code>，菜单栏选择<code>Tools-&gt;Options-&gt;Connections</code>，如下图配置就行，然后重启<code>fiddler</code><br><img src="/posts/e2047c6/2020-10-22-11-10-56.png" alt="fiddler配置"></p>
+<h3 id="抓包分析定位报文"><a href="#抓包分析定位报文" class="headerlink" title="抓包分析定位报文"></a>抓包分析定位报文</h3><p>浏览器打开<code>a.html</code>，定位成功后查看<code>fiddler</code>中抓到的报文，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 请求</span><br><span class="line">GET https://restapi.amap.com/v3/geocode/regeo?key=你申请的key&amp;s=rsv3&amp;language=zh_cn&amp;location=116.333374,40.009645&amp;extensions=base&amp;callback=jsonp_98368_&amp;platform=JS&amp;logversion=2.0&amp;appname=file%3A%2F%2F%2FC%3A%2FUsers%2Fzimo%2FDesktop%2Fa.html&amp;csid=45AD182B-2FF2-45B1-A74B-134A116B1242&amp;sdkversion=1.4.15 HTTP/1.1</span><br><span class="line">Host: restapi.amap.com</span><br><span class="line">Connection: keep-alive</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36</span><br><span class="line">Accept: */*</span><br><span class="line">Sec-Fetch-Site: cross-site</span><br><span class="line">Sec-Fetch-Mode: no-cors</span><br><span class="line">Sec-Fetch-Dest: script</span><br><span class="line">Accept-Encoding: gzip, deflate, br</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Cookie: cna=wO0GGESg9wICAd4SfkOgapRy; xlly_s=1; passport_login=MjA0ODYxODA4LGFtYXBCR1hNUkx0NmIsbWZremZ1eWVpc2Z1NWNndzNpcmhqc2ptNXp4c3JmdHosMTYwMzI5MDUzMixOMlF5TkRFME5USTJNbVExTXpBeU16Smtaab15TjJObU1EUmpORGc1T0RjPQ%3D%3D</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># 响应</span><br><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Server: Tengine</span><br><span class="line">Date: Thu, 22 Oct 2020 03:14:11 GMT</span><br><span class="line">Content-Type: application/json;charset=utf-8</span><br><span class="line">Connection: close</span><br><span class="line">Content-Length: 702</span><br><span class="line">gsid: 033015141109160333645149200012074647900</span><br><span class="line">sc: 0.004</span><br><span class="line">Access-Control-Allow-Origin: *</span><br><span class="line">Access-Control-Allow-Methods: *</span><br><span class="line">Access-Control-Allow-Headers: DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,key,x-biz,x-info,platinfo,encr,enginever,gzipped,poiid</span><br><span class="line"></span><br><span class="line">jsonp_98368_(&#123;&apos;status&apos;: &apos;1&apos;, &apos;regeocode&apos;: &#123;&apos;addressComponent&apos;: &#123;&apos;city&apos;: [], &apos;province&apos;: &apos;北京市&apos;, &apos;adcode&apos;: &apos;110108&apos;, &apos;district&apos;: &apos;海淀区&apos;, &apos;towncode&apos;: &apos;110108014000&apos;, &apos;streetNumber&apos;: &#123;&apos;number&apos;: &apos;7号&apos;, &apos;location&apos;: &apos;116.330383,40.008245&apos;, &apos;direction&apos;: &apos;西南&apos;, &apos;distance&apos;: &apos;298.527&apos;, &apos;street&apos;: &apos;荷清路&apos;&#125;, &apos;country&apos;: &apos;中国&apos;, &apos;township&apos;: &apos;清华园街道&apos;, &apos;businessAreas&apos;: [&#123;&apos;location&apos;: &apos;116.341578,39.991180&apos;, &apos;name&apos;: &apos;五道口&apos;, &apos;id&apos;: &apos;110108&apos;&#125;], &apos;building&apos;: &#123;&apos;name&apos;: [], &apos;type&apos;: []&#125;, &apos;neighborhood&apos;: &#123;&apos;name&apos;: &apos;清华大学&apos;, &apos;type&apos;: &apos;科教文化服务;科研机构;科研机构&apos;&#125;, &apos;citycode&apos;: &apos;010&apos;&#125;, &apos;formatted_address&apos;: &apos;北京市海淀区清华园街道清华大学&apos;&#125;, &apos;info&apos;: &apos;OK&apos;, &apos;infocode&apos;: &apos;10000&apos;&#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="编写服务器端应用模拟响应报文"><a href="#编写服务器端应用模拟响应报文" class="headerlink" title="编写服务器端应用模拟响应报文"></a>编写服务器端应用模拟响应报文</h3><p>我使用的是<code>IDE</code>是<code>IntelliJ IDEA 2019.3.3</code>，编程语言是<code>java</code>，另外使用了<code>springboot</code>框架快速构建服务器端应用，当然，你可以选择你熟悉的其他方式，不再赘述相关内容，在此直接贴出<code>controller</code>类的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> wiki.zimo.demo.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestParam;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/v3/geocode/regeo"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">locate</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">            @RequestParam(<span class="string">"key"</span>)</span> String key,</span></span><br><span class="line"><span class="function">            @<span class="title">RequestParam</span><span class="params">(<span class="string">"s"</span>)</span> String s,</span></span><br><span class="line"><span class="function">            @<span class="title">RequestParam</span><span class="params">(<span class="string">"language"</span>)</span> String language,</span></span><br><span class="line"><span class="function">            @<span class="title">RequestParam</span><span class="params">(<span class="string">"location"</span>)</span> String location,</span></span><br><span class="line"><span class="function">            @<span class="title">RequestParam</span><span class="params">(<span class="string">"extensions"</span>)</span> String extensions,</span></span><br><span class="line"><span class="function">            @<span class="title">RequestParam</span><span class="params">(<span class="string">"callback"</span>)</span> String callback,</span></span><br><span class="line"><span class="function">            @<span class="title">RequestParam</span><span class="params">(<span class="string">"platform"</span>)</span> String platform,</span></span><br><span class="line"><span class="function">            @<span class="title">RequestParam</span><span class="params">(<span class="string">"logversion"</span>)</span> String logversion,</span></span><br><span class="line"><span class="function">            @<span class="title">RequestParam</span><span class="params">(<span class="string">"appname"</span>)</span> String appname,</span></span><br><span class="line"><span class="function">            @<span class="title">RequestParam</span><span class="params">(<span class="string">"csid"</span>)</span> String csid,</span></span><br><span class="line"><span class="function">            @<span class="title">RequestParam</span><span class="params">(<span class="string">"sdkversion"</span>)</span> String sdkversion,</span></span><br><span class="line"><span class="function">            HttpServletResponse response) <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">        response.addHeader(<span class="string">"Date"</span>, <span class="keyword">new</span> Date().toGMTString());</span><br><span class="line">        response.addHeader(<span class="string">"Content-Type"</span>, <span class="string">"application/json;charset=utf-8"</span>);</span><br><span class="line">        response.addHeader(<span class="string">"Connection"</span>, <span class="string">"close"</span>);</span><br><span class="line">        response.addHeader(<span class="string">"gsid"</span>, <span class="string">"011018245168159885414704300017308414815"</span>);</span><br><span class="line">        response.addHeader(<span class="string">"sc"</span>, <span class="string">"0.004"</span>);</span><br><span class="line">        response.addHeader(<span class="string">"Access-Control-Allow-Origin"</span>, <span class="string">"*"</span>);</span><br><span class="line">        response.addHeader(<span class="string">"Access-Control-Allow-Methods"</span>, <span class="string">"*"</span>);</span><br><span class="line">        response.addHeader(<span class="string">"Access-Control-Allow-Headers"</span>, <span class="string">"DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,key,x-biz,x-info,platinfo,encr,enginever,gzipped,poiid"</span>);</span><br><span class="line">        response.addHeader(<span class="string">"Server"</span>, <span class="string">"Tengine"</span>);</span><br><span class="line">        <span class="comment">// 下面的json就是你想要伪装的位置</span></span><br><span class="line">        String json = <span class="string">"&#123;'status': '1', 'regeocode': &#123;'addressComponent': &#123;'city': [], 'province': '北京市', 'adcode': '110108', 'district': '海淀区', 'towncode': '110108014000', 'streetNumber': &#123;'number': '7号', 'location': '116.330383,40.008245', 'direction': '西南', 'distance': '298.527', 'street': '荷清路'&#125;, 'country': '中国', 'township': '清华园街道', 'businessAreas': [&#123;'location': '116.341578,39.991180', 'name': '五道口', 'id': '110108'&#125;], 'building': &#123;'name': [], 'type': []&#125;, 'neighborhood': &#123;'name': '清华大学', 'type': '科教文化服务;科研机构;科研机构'&#125;, 'citycode': '010'&#125;, 'formatted_address': '北京市海淀区清华园街道清华大学'&#125;, 'info': 'OK', 'infocode': '10000'&#125;"</span>;</span><br><span class="line">        response.getWriter().write(callback + String.format(<span class="string">"(%s)"</span>, json));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改fiddler自定义规则"><a href="#修改fiddler自定义规则" class="headerlink" title="修改fiddler自定义规则"></a>修改fiddler自定义规则</h3><p>修改<code>fiddler</code>的自定义规则（快捷键 <kbd>Ctrl</kbd> + <kbd>R</kbd>），使之劫持请求定位的接口<code>https://restapi.amap.com/v3/geocode/regeo</code>将它定向到请求我们自己编写的模拟响应报文的服务器端应用，从而实现伪装定位的目的，脚本如下（此处我是在<code>OnBeforeRequest</code>方法的最后插入了下面这段脚本，当然，也可以处理其他的，比如处理响应之前的）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var origin_host=&quot;https://restapi.amap.com/v3/geocode/regeo&quot;;</span><br><span class="line">var replace_host=&quot;http://localhost:8080/v3/geocode/regeo&quot;;</span><br><span class="line">if(oSession.uriContains(origin_host))&#123;</span><br><span class="line">    oSession.fullUrl = oSession.fullUrl.Replace(origin_host,replace_host);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="下面定位到天安门试试"><a href="#下面定位到天安门试试" class="headerlink" title="下面定位到天安门试试"></a>下面定位到天安门试试</h3><p>修改服务器端应用，将<code>json</code>替换为你想定位到的地方，并且需要保证是合法的高德地图定位接口所返回的内容，我这里提供一段<code>python</code>脚本，主要功能是利用<code>高德地图的地理/逆地理编码api</code>得到合法的<code>json</code>位置，使用前需要安装<code>python</code>和<code>requests</code>库，参考命令<code>pip install requests</code>，并申请高德地图<code>Web服务</code>应用，获取到相应的<code>key</code>（注意：这个<code>key</code>和上面的<code>Web端</code>的<code>key</code>并不相同）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># location 就是你想定位到的经纬度坐标，可以使用坐标拾取系统得到</span></span><br><span class="line">res = requests.get(<span class="string">'https://restapi.amap.com/v3/geocode/regeo?key=你的key&amp;location=116.403963,39.915119'</span>)</span><br><span class="line">print(res.json())</span><br></pre></td></tr></table></figure>
+
+<p>浏览器<code>console</code>输出如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;type&quot;:&quot;complete&quot;,&quot;info&quot;:&quot;SUCCESS&quot;,&quot;status&quot;:1,&quot;ZDa&quot;:&quot;jsonp_590192_&quot;,&quot;position&quot;:&#123;&quot;Q&quot;:30.58052,&quot;R&quot;:103.9923,&quot;lng&quot;:103.9923,&quot;lat&quot;:30.58052&#125;,&quot;message&quot;:&quot;Get ipLocation success.Get address success.&quot;,&quot;location_type&quot;:&quot;ip&quot;,&quot;accuracy&quot;:null,&quot;isConverted&quot;:true,&quot;addressComponent&quot;:&#123;&quot;citycode&quot;:&quot;010&quot;,&quot;adcode&quot;:&quot;110101&quot;,&quot;businessAreas&quot;:[&#123;&quot;name&quot;:&quot;东单&quot;,&quot;id&quot;:&quot;110101&quot;,&quot;location&quot;:&#123;&quot;Q&quot;:39.913479,&quot;R&quot;:116.41680400000001,&quot;lng&quot;:116.416804,&quot;lat&quot;:39.913479&#125;&#125;,&#123;&quot;name&quot;:&quot;王府井&quot;,&quot;id&quot;:&quot;110101&quot;,&quot;location&quot;:&#123;&quot;Q&quot;:39.913505,&quot;R&quot;:116.41203100000001,&quot;lng&quot;:116.412031,&quot;lat&quot;:39.913505&#125;&#125;,&#123;&quot;name&quot;:&quot;东四&quot;,&quot;id&quot;:&quot;110101&quot;,&quot;location&quot;:&#123;&quot;Q&quot;:39.929561,&quot;R&quot;:116.42517099999998,&quot;lng&quot;:116.425171,&quot;lat&quot;:39.929561&#125;&#125;],&quot;neighborhoodType&quot;:&quot;&quot;,&quot;neighborhood&quot;:&quot;&quot;,&quot;building&quot;:&quot;&quot;,&quot;buildingType&quot;:&quot;&quot;,&quot;street&quot;:&quot;东华门大街&quot;,&quot;streetNumber&quot;:&quot;60号&quot;,&quot;country&quot;:&quot;中国&quot;,&quot;province&quot;:&quot;北京市&quot;,&quot;city&quot;:&quot;&quot;,&quot;district&quot;:&quot;东城区&quot;,&quot;township&quot;:&quot;东华门街道&quot;&#125;,&quot;formattedAddress&quot;:&quot;北京市东城区东华门街道东华门大街东华门大街小区&quot;,&quot;roads&quot;:[],&quot;crosses&quot;:[],&quot;pois&quot;:[]&#125;</span><br></pre></td></tr></table></figure>
+
+<p>详细地址如下：</p>
+<p><img src="/posts/e2047c6/2020-10-22-15-11-31.png" alt="enjoy it"></p>
+<h4 id="百度地图同理，不再过多赘述"><a href="#百度地图同理，不再过多赘述" class="headerlink" title="百度地图同理，不再过多赘述"></a>百度地图同理，不再过多赘述</h4><h4 id="enjoy-it"><a href="#enjoy-it" class="headerlink" title="enjoy it!!!"></a>enjoy it!!!</h4><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
+    </div>
+
+    
+    
+    
+      
+
+        
+      
+        <div id="reward-container">
+  <div>觉得不错，打赏一下</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wechatpay.png" alt="子墨 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.png" alt="子墨 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>子墨</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.zimo.wiki/posts/e2047c6/" title="实战fiddler劫持高德地图api伪装位置">https://blog.zimo.wiki/posts/e2047c6/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a style="text-align:center;" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/fiddler/" rel="tag"><i class="fa fa-tag"></i> fiddler</a>
+            
+              <a href="/tags/劫持/" rel="tag"><i class="fa fa-tag"></i> 劫持</a>
+            
+              <a href="/tags/伪装位置/" rel="tag"><i class="fa fa-tag"></i> 伪装位置</a>
+            
+          </div>
+        
+
+        
+  <div class="post-widgets">
+    <div class="social-share">
+      
+      
+        <div id="needsharebutton-postbottom">
+          <span class="btn">
+            <i class="fa fa-share-alt" aria-hidden="true"></i>
+          </span>
+        </div>
+      
+    </div>
+  
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/posts/b33186a1/" rel="next" title="windows下编译dns2tcp">
+                  <i class="fa fa-chevron-left"></i> windows下编译dns2tcp
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/posts/bf2ec5ab/" rel="prev" title="一种导入小爱课程表的非一般方法">
+                  一种导入小爱课程表的非一般方法 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NTk4Ni8yMjQ5Nw=="></div>
+  </div>
+  
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          
+<div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/header.jpg"
+      alt="子墨">
+  <p class="site-author-name" itemprop="name">子墨</p>
+  <div class="site-description motion-element" itemprop="description">子墨的博客</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">71</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a style="text-align:center;" href="https://github.com/ZimoLoveShuang" title="GitHub &rarr; https://github.com/ZimoLoveShuang" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a style="text-align:center;" href="mailto:461009747@qq.com" title="E-Mail &rarr; mailto:461009747@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a style="text-align:center;" href="https://blog.csdn.net/qq_36737934" title="CSDN &rarr; https://blog.csdn.net/qq_36737934" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i>CSDN</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a style="text-align:center;" href="tencent://Message/?Uin=461009747&websiteName=q-zone.qq.com&Menu=yes" title="QQ &rarr; tencent://Message/?Uin=461009747&websiteName=q-zone.qq.com&Menu=yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-qq"></i>QQ</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a style="text-align:center;" href="https://gitee.com/zimolove3" title="Gitee &rarr; https://gitee.com/zimolove3" rel="noopener" target="_blank"><i class="fa fa-fw fa-gitlab"></i>Gitee</a>
+      </span>
+    
+  </div>
+
+
+  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+    <div class="links-of-blogroll-title">
+      <i class="fa  fa-fw fa-link"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.gaozhengjie.cn/" title="https://www.gaozhengjie.cn/" rel="noopener" target="_blank">高正杰的博客</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <h3 class="widget-title" style="text-align:center;">Tag Cloud</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/807/">807</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HttpCanary/">HttpCanary</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jupyter-Notebook/">Jupyter Notebook</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c++</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos/">centos</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cuda/">cuda</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c语言/">c语言</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deepin/">deepin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dns2tcp/">dns2tcp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fiddler/">fiddler</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/i至诚/">i至诚</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jar/">jar</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/">jetbrains</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux-server/">linux server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3/">python3</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytorch/">pytorch</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tesseract-ocr/">tesseract-ocr</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubantu/">ubantu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/virtualenvwrapper-win/">virtualenvwrapper-win</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/war/">war</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows-server/">windows server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人博客/">个人博客</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代理/">代理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码托管/">代码托管</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码雨/">代码雨</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/伪装位置/">伪装位置</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/使用指南/">使用指南</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/刷recovery/">刷recovery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/力扣/">力扣</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/劫持/">劫持</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/双系统/">双系统</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小爱课程表/">小爱课程表</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小米6/">小米6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/常识/">常识</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/快捷键冲突/">快捷键冲突</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/抓包/">抓包</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/折腾/">折腾</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/挖矿木马/">挖矿木马</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务器/">服务器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/极客/">极客</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树梅派400/">树梅派400</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/油猴脚本/">油猴脚本</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/环境搭建/">环境搭建</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/直播服务器/">直播服务器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/科普/">科普</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/程序综合设计/">程序综合设计</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/终端/">终端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译/">编译</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/考研/">考研</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动打卡/">自动打卡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/蓝桥杯/">蓝桥杯</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/解锁bl/">解锁bl</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/部署/">部署</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/钉子户/">钉子户</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/题解/">题解</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/黑客帝国/">黑客帝国</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/黑苹果/">黑苹果</a><span class="tag-list-count">1</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#工具及用途"><span class="nav-number">1.</span> <span class="nav-text">工具及用途</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备"><span class="nav-number">2.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开始"><span class="nav-number">3.</span> <span class="nav-text">开始</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置fiddler"><span class="nav-number">3.1.</span> <span class="nav-text">配置fiddler</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#抓包分析定位报文"><span class="nav-number">3.2.</span> <span class="nav-text">抓包分析定位报文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写服务器端应用模拟响应报文"><span class="nav-number">3.3.</span> <span class="nav-text">编写服务器端应用模拟响应报文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改fiddler自定义规则"><span class="nav-number">3.4.</span> <span class="nav-text">修改fiddler自定义规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下面定位到天安门试试"><span class="nav-number">3.5.</span> <span class="nav-text">下面定位到天安门试试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#百度地图同理，不再过多赘述"><span class="nav-number">3.5.1.</span> <span class="nav-text">百度地图同理，不再过多赘述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#enjoy-it"><span class="nav-number">3.5.2.</span> <span class="nav-text">enjoy it!!!</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">蜀ICP备18029083号 </a>&copy; 2019 – <span itemprop="copyrightYear">2022</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">子墨</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">167k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    
+    <span title="站点阅读时长">2:32</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+  <!-- 网站运行时间的设置 -->
+  <div>
+    <span id="runTime">载入网站运行时间中...</span>
+  </div>
+  <script>
+      // 网站运行时间
+      function webSiteRunTime() {
+          var grt = new Date('2019-08-07 17:03');// 建站时间
+          var now = new Date();
+          days = (now - grt) / 1000 / 60 / 60 / 24;
+          dnum = Math.floor(days);
+          hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum);
+          hnum = Math.floor(hours);
+          if(String(hnum).length == 1) {
+              hnum = "0" + hnum;
+          }
+          minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
+          mnum = Math.floor(minutes);
+          if(String(mnum).length == 1) {
+              mnum = "0" + mnum;
+          }
+          seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+          snum = Math.floor(seconds);
+          if(String(snum).length == 1) {
+              snum = "0" + snum;
+          }
+          document.getElementById("runTime").innerHTML = "本站已安全运行 " + dnum + " 天 " + hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+      }
+      setInterval("webSiteRunTime()",1000);
+  </script>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+  <!-- 网站cdn加速图标 -->
+  <div style="display: inline-block;">
+    <a style="filter: drop-shadow(0 0 0.1em #222);display: block;width: 112px;height: 24px;background: url(//yjsstatic.baidu.com//app/img/logo_baiduanquan_navbar_web.svg) no-repeat center center;" href="https://su.baidu.com/" target="_blank"></a>
+  </div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+
+    
+  
+<script src="/lib/needsharebutton/needsharebutton.js"></script>
+<script>
+    pbOptions = {};
+      pbOptions.iconStyle = "box";
+    
+      pbOptions.boxForm = "horizontal";
+    
+      pbOptions.position = "bottomCenter";
+    
+      pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+    
+    new needShareButton('#needsharebutton-postbottom', pbOptions);
+</script>
+
+
+  </div>
+
+  
+    
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    /*(function(){
+      console.log('执行了吗');
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();*/
+    (function() {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+    
+<script>
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+ 
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

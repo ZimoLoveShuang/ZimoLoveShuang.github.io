@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="referrer" content="no-referrer" />
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+  <meta name="baidu-site-verification" content="DZuSb7rHBzd9CBVO">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-corner-indicator.min.css?v=1.0.2">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":true,"style":"default"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="篇一：初级折腾 前言 先谈一谈我和小米的缘分吧，自从14年，我购入了属于我自己的第一台小米手机——小米note之后，就一直在用小米系列的手机产品，我用过的产品线大概是这样的小米note-&amp;gt;小米5-&amp;gt;小米max-&amp;gt;小米6-&amp;gt;小米CC9（目前），至于我为什么要买小米系的产品，我认为原因有两点吧，第一，miui确实大而全并且好玩，发烧友们应该都懂；第二，我应该算是雷军的粉丝吧，国">
+<meta name="keywords" content="小米6,钉子户,折腾,解锁bl,刷recovery,极客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小米6钉子户折腾日记（一）">
+<meta property="og:url" content="https://blog.zimo.wiki/posts/574b2b2e/index.html">
+<meta property="og:site_name" content="子墨的博客">
+<meta property="og:description" content="篇一：初级折腾 前言 先谈一谈我和小米的缘分吧，自从14年，我购入了属于我自己的第一台小米手机——小米note之后，就一直在用小米系列的手机产品，我用过的产品线大概是这样的小米note-&amp;gt;小米5-&amp;gt;小米max-&amp;gt;小米6-&amp;gt;小米CC9（目前），至于我为什么要买小米系的产品，我认为原因有两点吧，第一，miui确实大而全并且好玩，发烧友们应该都懂；第二，我应该算是雷军的粉丝吧，国">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/574b2b2e/2021-01-29-14-00-49.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/574b2b2e/2021-01-29-14-23-15.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/574b2b2e/2021-01-29-14-29-14.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/574b2b2e/2021-01-29-14-37-01.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/574b2b2e/2021-01-29-14-53-55.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/574b2b2e/2021-01-29-15-00-22.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/574b2b2e/2021-01-29-15-09-22.png">
+<meta property="og:image" content="https://blog.zimo.wiki/posts/574b2b2e/2021-01-29-15-13-55.png">
+<meta property="og:updated_time" content="2022-05-04T02:56:01.398Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="小米6钉子户折腾日记（一）">
+<meta name="twitter:description" content="篇一：初级折腾 前言 先谈一谈我和小米的缘分吧，自从14年，我购入了属于我自己的第一台小米手机——小米note之后，就一直在用小米系列的手机产品，我用过的产品线大概是这样的小米note-&amp;gt;小米5-&amp;gt;小米max-&amp;gt;小米6-&amp;gt;小米CC9（目前），至于我为什么要买小米系的产品，我认为原因有两点吧，第一，miui确实大而全并且好玩，发烧友们应该都懂；第二，我应该算是雷军的粉丝吧，国">
+<meta name="twitter:image" content="https://blog.zimo.wiki/posts/574b2b2e/2021-01-29-14-00-49.png">
+  <link rel="alternate" href="/atom.xml" title="子墨的博客" type="application/atom+xml">
+  <link rel="canonical" href="https://blog.zimo.wiki/posts/574b2b2e/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>小米6钉子户折腾日记（一） | 子墨的博客</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7f74197855659515fce98a69a3bcd36f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  
+    <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+    <script type="text/javascript" src="/js/anime.min.js"></script> 
+    <script type="text/javascript" src="/js/fireworks.js"></script>
+  
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">子墨的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">总得让实力配上野心</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">71</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">16</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">29</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/ZimoLoveShuang" class="github-corner" title="Follow me on Github" aria-label="Follow me on Github" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.zimo.wiki/posts/574b2b2e/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="子墨">
+      <meta itemprop="description" content="子墨的博客">
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="子墨的博客">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">小米6钉子户折腾日记（一）
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-thumb-tack"></i>
+              </span>
+              <span class="post-meta-item-text"></span>
+              <time title="置顶" itemprop="置顶" datetime="2021-01-27T07:17:36+00:00" style="color:#7D26CD;">置顶</time>
+             </span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2021-01-27 15:17:36" itemprop="dateCreated datePublished" datetime="2021-01-27T15:17:36+08:00">2021-01-27</time>
+            </span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/发烧友折腾日记/" itemprop="url" rel="index"><span itemprop="name">发烧友折腾日记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>2.7k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>2 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>篇一：初级折腾</strong></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>先谈一谈我和小米的缘分吧，自从14年，我购入了属于我自己的第一台小米手机——小米note之后，就一直在用小米系列的手机产品，我用过的产品线大概是这样的小米note-&gt;小米5-&gt;小米max-&gt;小米6-&gt;小米CC9（目前），至于我为什么要买小米系的产品，我认为原因有两点吧，第一，miui确实大而全并且好玩，发烧友们应该都懂；第二，我应该算是雷军的粉丝吧，国内科技圈我最为崇拜的两个人，雷军和求伯君</p>
+</blockquote>
+<blockquote>
+<p>再谈一谈，我手里这台小米6吧，17年首发提前批F码通道到手的，说实话，我自己也没想到，它坚持到了现在，并且目前还保持着较高的流畅度，因为一直保护的还算比较好，成色比较新（至少85新吧，仅不锈钢中框掉了一点点漆），截止到目前为止，没有换过手机的任何零部件，我都用它干过些什么呢？老实说，在它作为我的主力机的时候，我并没有对它进行任何的折腾，就纯粹的正常使用，我对它的折腾开始于，它作为备用机的时候，作为一个发烧友（可能不太合格） <strong>折腾</strong> 当然包括但不限于解锁，刷机，root，recovery，magisk，xposed，魔改官方ROM，魔改官方apk等操作</p>
+</blockquote>
+<blockquote>
+<p>实际上，就我个人而言，折腾应该算作是我的兴趣爱好吧，生命在于折腾</p>
+</blockquote>
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>主要回答下面这几个问题：</p>
+<h3 id="这个系列的文章仅适用于小米6钉子户吗？"><a href="#这个系列的文章仅适用于小米6钉子户吗？" class="headerlink" title="这个系列的文章仅适用于小米6钉子户吗？"></a>这个系列的文章仅适用于小米6钉子户吗？</h3><p>答：我在这个系列的文章中仅会以小米6手机举例：包括所有实例，步骤等。但是折腾这东西吧，思路其实是适用于很多方面，只要你有一颗想做极客的心，我认为都可以从这个系列的文章中学到一些东西</p>
+<h3 id="这篇文章的内容包括哪些？"><a href="#这篇文章的内容包括哪些？" class="headerlink" title="这篇文章的内容包括哪些？"></a>这篇文章的内容包括哪些？</h3><p>答：大概有：</p>
+<ol>
+<li>解锁bl</li>
+<li>刷第三方recovery</li>
+<li>刷入root</li>
+<li>刷入magisk</li>
+<li>刷入xposed</li>
+<li>初级救砖</li>
+</ol>
+<h3 id="为什么这篇文章是初级篇？"><a href="#为什么这篇文章是初级篇？" class="headerlink" title="为什么这篇文章是初级篇？"></a>为什么这篇文章是初级篇？</h3><p>答：因为我认为以上所列出的所有操作，均是初级操作，换言之，就是大部分人都会的东西（毕竟各路教程满天飞），没什么好稀奇的，也谈不上很牛的技术，如果非要说牛的话，我认为，造轮子的大佬们牛，努力吧，也许这辈子都无法到达那个高度，但至少我们曾经为此努力过，不是吗？</p>
+<h3 id="后面会有高级篇吗？"><a href="#后面会有高级篇吗？" class="headerlink" title="后面会有高级篇吗？"></a>后面会有高级篇吗？</h3><p>答：这是系列文章，后面自然会出高级篇（提前给自己挖坑。不知道啥时候埋）</p>
+<h3 id="高级篇的内容包括哪些？"><a href="#高级篇的内容包括哪些？" class="headerlink" title="高级篇的内容包括哪些？"></a>高级篇的内容包括哪些？</h3><p>答：大概有</p>
+<ol>
+<li>反编译，魔改系统apk</li>
+<li>魔改ROM</li>
+<li>移植ROM</li>
+<li>高级救砖</li>
+<li>各种自定义</li>
+</ol>
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><p><strong>请严格按照目录依次操作</strong></p>
+<h3 id="解锁bl"><a href="#解锁bl" class="headerlink" title="解锁bl"></a>解锁bl</h3><p>就参考官方吧，很多时候官方的东西，会给我们很多的灵感，遇到问题的时候，多翻一翻官方的东西，也许有意外惊喜，至于解锁教程，官方的教程已经足够详细，不再多说，如果实在不会，请访问<a href="http://www.miui.com/unlock/index.html" target="_blank" rel="noopener">官方教程</a></p>
+<h3 id="刷第三方recovery"><a href="#刷第三方recovery" class="headerlink" title="刷第三方recovery"></a>刷第三方recovery</h3><p>提到第三方recovery就不得不提<a href="https://twrp.me/" target="_blank" rel="noopener">twrp</a>，虽然我最后使用的第三方recovery不是twrp，而是<a href="https://orangefox.download/zh-CN" target="_blank" rel="noopener">OrangeFox</a>，但是刷入OrangeFox前，需要先刷入其他的第三方recovery，于是还是得刷twrp</p>
+<p>需要准备的工具：</p>
+<ol>
+<li>adb</li>
+<li>fastboot</li>
+<li>一条数据线</li>
+</ol>
+<p>如果你电脑上有Android Sdk，你会发现这些都是集成好的，为了方便使用，你需要做的大概只有把那个目录加入到环境变量中<br><img src="/posts/574b2b2e/2021-01-29-14-00-49.png" alt></p>
+<p>需要准备的文件：</p>
+<p><a href="https://twrp.me/xiaomi/xiaomimi6.html" target="_blank" rel="noopener">twrp-3.5.0_9-0-sagit.img</a><br><a href="https://orangefox.download/zh-CN/device/sagit" target="_blank" rel="noopener">OrangeFox-sagit-stable@R10.0.zip</a></p>
+<h4 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h4><ol>
+<li>手机设置中打开开发者选项，打开USB调试和USB调试安全选项，如果你手机没有开发者选项这个设置，快速连续点击设置-&gt;我的设备-&gt;全部参数-&gt;miui版本十次<br><img src="/posts/574b2b2e/2021-01-29-14-23-15.png" alt></li>
+<li>手机开机状态下，数据线连上电脑，执行命令<code>adb reboot bootloader</code>或者手机关机状态下，同时按住开机键和音量上键，进入fastboot，看到米兔正在修理机器人界面</li>
+<li>在你下载好的文件目录下，打开cmd，执行命令，<code>fastboot flash recovery twrp-3.5.0_9-0-sagit.img</code><br><img src="/posts/574b2b2e/2021-01-29-14-29-14.png" alt></li>
+<li>刷完之后，不要直接开机，不然会自动恢复官方的recovery，保持关机状态下，同时按住开机键和音量上键，应该会进入twrp的recovery</li>
+<li>如果你有密码，进入recovery后会要求输入密码，验证通过后这时候adb会自动连接上，把OrangeFox的zip复制到手机上，然后使用twrp的install功能，安装zip<br><img src="/posts/574b2b2e/2021-01-29-14-37-01.png" alt></li>
+<li>完成后重启，第三方recovery就刷好了</li>
+<li>one the more，如果你不喜欢英文，可以在设置中切换为中文</li>
+</ol>
+<p>这里稍微提一下为啥要使用OrangeFox的recovery，因为这家的recovery对miui官方包的支持可能是最好的吧，它支持官方包的ota等，我个人比较喜欢官方包，在官方包的基础上魔改一些东西，自定义</p>
+<h3 id="刷入root"><a href="#刷入root" class="headerlink" title="刷入root"></a>刷入root</h3><p>这个相当的简单了，如果你喜欢官方给你的root，你可以选择刷入miui官方的开发版系统自带的root包，这个过程可以自动完成，只需要在手机管家-&gt;应用管理-&gt;权限-&gt;开启root权限即可，如果你不喜欢官方给你的，刷入magisk是另一种选择</p>
+<h3 id="刷入magisk"><a href="#刷入magisk" class="headerlink" title="刷入magisk"></a>刷入magisk</h3><p>直接下载最新的<a href="https://github.com/topjohnwu/Magisk/tags" target="_blank" rel="noopener">Magisk.zip</a>，然后放入手机根目录，重启到recovery，安装即可</p>
+<h3 id="刷入xposed"><a href="#刷入xposed" class="headerlink" title="刷入xposed"></a>刷入xposed</h3><p>官方的<a href="https://github.com/rovo89/XposedInstaller" target="_blank" rel="noopener">xposed</a>最高只支持到android 8，如果你是8及其以下，可以选择官方的，不是的话，就选择<a href="https://github.com/ElderDrivers/EdXposed" target="_blank" rel="noopener">Edxposed</a>吧</p>
+<p>需要准备的文件：</p>
+<p><img src="/posts/574b2b2e/2021-01-29-14-53-55.png" alt></p>
+<h4 id="步骤-1"><a href="#步骤-1" class="headerlink" title="步骤"></a>步骤</h4><ol>
+<li>进入recovery，刷入magisk</li>
+<li>开机，在magisk manager应用中安装Riru模块，可能需要一个梯子<br><img src="/posts/574b2b2e/2021-01-29-15-00-22.png" alt></li>
+<li>进入recovery，刷入Edxposed</li>
+<li>开机，安装Edxposed Manager</li>
+<li>enjoy it!!!<br><img src="/posts/574b2b2e/2021-01-29-15-09-22.png" alt></li>
+</ol>
+<h3 id="初级救砖"><a href="#初级救砖" class="headerlink" title="初级救砖"></a>初级救砖</h3><p>其实就是卡刷和线刷救砖，预备好官方包，在无限重启 无法开机等异常状态时，重新刷入官方包，使之回归到正常状态，不再过多赘述</p>
+<p>我预备了这四个包，既有卡刷包，也有线刷包<br><img src="/posts/574b2b2e/2021-01-29-15-13-55.png" alt></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>初级篇所有过程均不复杂，毕竟工具确实好用，按步骤来基本不会出问题</p>
+<p>题外话，不建议使用未知来源或者不开源的magisk或者xposed模块，so dangerous</p>
+<p>其实这篇文章里面所有内容，均有人做好了相关的ROM了甚至他们给的功能增强更强，而安装基本也就是一键操作，很方便，那为什么我不直接使用他们做好的呢？答案其实很显然：推广太多并且极度危险，另外 我喜欢自己魔改，包括在写这篇文章中所安装好magisk和xposed，它们很好玩，很强，但其实我不需要他们，为什么呢？因为他们给的太多了，而我需要的并没有这么多，由此将会引出高级篇，各种自定义修改，魔改系统等等</p>
+<p>只有你自己才知道你需要的到底是什么，但好多时候 其实连你自己都不知道</p>
+<p>敬请期待高级篇</p>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
+    </div>
+
+    
+    
+    
+      
+
+        
+      
+        <div id="reward-container">
+  <div>觉得不错，打赏一下</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wechatpay.png" alt="子墨 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.png" alt="子墨 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>子墨</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.zimo.wiki/posts/574b2b2e/" title="小米6钉子户折腾日记（一）">https://blog.zimo.wiki/posts/574b2b2e/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a style="text-align:center;" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/小米6/" rel="tag"><i class="fa fa-tag"></i> 小米6</a>
+            
+              <a href="/tags/钉子户/" rel="tag"><i class="fa fa-tag"></i> 钉子户</a>
+            
+              <a href="/tags/折腾/" rel="tag"><i class="fa fa-tag"></i> 折腾</a>
+            
+              <a href="/tags/解锁bl/" rel="tag"><i class="fa fa-tag"></i> 解锁bl</a>
+            
+              <a href="/tags/刷recovery/" rel="tag"><i class="fa fa-tag"></i> 刷recovery</a>
+            
+              <a href="/tags/极客/" rel="tag"><i class="fa fa-tag"></i> 极客</a>
+            
+          </div>
+        
+
+        
+  <div class="post-widgets">
+    <div class="social-share">
+      
+      
+        <div id="needsharebutton-postbottom">
+          <span class="btn">
+            <i class="fa fa-share-alt" aria-hidden="true"></i>
+          </span>
+        </div>
+      
+    </div>
+  
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/posts/f027b6b4/" rel="next" title="基于油猴的力扣题目转换工具 html转markdown 便于写题解">
+                  <i class="fa fa-chevron-left"></i> 基于油猴的力扣题目转换工具 html转markdown 便于写题解
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/posts/39ffeca3/" rel="prev" title="终端使用代理">
+                  终端使用代理 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    
+  <div class="comments" id="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NTk4Ni8yMjQ5Nw=="></div>
+  </div>
+  
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          
+<div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/header.jpg"
+      alt="子墨">
+  <p class="site-author-name" itemprop="name">子墨</p>
+  <div class="site-description motion-element" itemprop="description">子墨的博客</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">71</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a style="text-align:center;" href="https://github.com/ZimoLoveShuang" title="GitHub &rarr; https://github.com/ZimoLoveShuang" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a style="text-align:center;" href="mailto:461009747@qq.com" title="E-Mail &rarr; mailto:461009747@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a style="text-align:center;" href="https://blog.csdn.net/qq_36737934" title="CSDN &rarr; https://blog.csdn.net/qq_36737934" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i>CSDN</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a style="text-align:center;" href="tencent://Message/?Uin=461009747&websiteName=q-zone.qq.com&Menu=yes" title="QQ &rarr; tencent://Message/?Uin=461009747&websiteName=q-zone.qq.com&Menu=yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-qq"></i>QQ</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a style="text-align:center;" href="https://gitee.com/zimolove3" title="Gitee &rarr; https://gitee.com/zimolove3" rel="noopener" target="_blank"><i class="fa fa-fw fa-gitlab"></i>Gitee</a>
+      </span>
+    
+  </div>
+
+
+  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+    <div class="links-of-blogroll-title">
+      <i class="fa  fa-fw fa-link"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.gaozhengjie.cn/" title="https://www.gaozhengjie.cn/" rel="noopener" target="_blank">高正杰的博客</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <h3 class="widget-title" style="text-align:center;">Tag Cloud</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/807/">807</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HttpCanary/">HttpCanary</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jupyter-Notebook/">Jupyter Notebook</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/">c++</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos/">centos</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cuda/">cuda</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c语言/">c语言</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deepin/">deepin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dns2tcp/">dns2tcp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fiddler/">fiddler</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/i至诚/">i至诚</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jar/">jar</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jetbrains/">jetbrains</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux-server/">linux server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python3/">python3</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pytorch/">pytorch</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tesseract-ocr/">tesseract-ocr</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubantu/">ubantu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/virtualenvwrapper-win/">virtualenvwrapper-win</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/war/">war</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows-server/">windows server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人博客/">个人博客</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代理/">代理</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码托管/">代码托管</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码雨/">代码雨</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/伪装位置/">伪装位置</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/使用指南/">使用指南</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/刷recovery/">刷recovery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/力扣/">力扣</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/劫持/">劫持</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/双系统/">双系统</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小爱课程表/">小爱课程表</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小米6/">小米6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/常识/">常识</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/快捷键冲突/">快捷键冲突</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/抓包/">抓包</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/折腾/">折腾</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/挖矿木马/">挖矿木马</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务器/">服务器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器学习/">机器学习</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/极客/">极客</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树梅派400/">树梅派400</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/油猴脚本/">油猴脚本</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/环境搭建/">环境搭建</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/直播服务器/">直播服务器</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/科普/">科普</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/程序综合设计/">程序综合设计</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/终端/">终端</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译/">编译</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/考研/">考研</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动打卡/">自动打卡</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/蓝桥杯/">蓝桥杯</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/解锁bl/">解锁bl</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/运维/">运维</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/部署/">部署</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/钉子户/">钉子户</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/题解/">题解</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/黑客帝国/">黑客帝国</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/黑苹果/">黑苹果</a><span class="tag-list-count">1</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#说明"><span class="nav-number">2.</span> <span class="nav-text">说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#这个系列的文章仅适用于小米6钉子户吗？"><span class="nav-number">2.1.</span> <span class="nav-text">这个系列的文章仅适用于小米6钉子户吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#这篇文章的内容包括哪些？"><span class="nav-number">2.2.</span> <span class="nav-text">这篇文章的内容包括哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么这篇文章是初级篇？"><span class="nav-number">2.3.</span> <span class="nav-text">为什么这篇文章是初级篇？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后面会有高级篇吗？"><span class="nav-number">2.4.</span> <span class="nav-text">后面会有高级篇吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高级篇的内容包括哪些？"><span class="nav-number">2.5.</span> <span class="nav-text">高级篇的内容包括哪些？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开始"><span class="nav-number">3.</span> <span class="nav-text">开始</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解锁bl"><span class="nav-number">3.1.</span> <span class="nav-text">解锁bl</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#刷第三方recovery"><span class="nav-number">3.2.</span> <span class="nav-text">刷第三方recovery</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#步骤"><span class="nav-number">3.2.1.</span> <span class="nav-text">步骤</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#刷入root"><span class="nav-number">3.3.</span> <span class="nav-text">刷入root</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#刷入magisk"><span class="nav-number">3.4.</span> <span class="nav-text">刷入magisk</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#刷入xposed"><span class="nav-number">3.5.</span> <span class="nav-text">刷入xposed</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#步骤-1"><span class="nav-number">3.5.1.</span> <span class="nav-text">步骤</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初级救砖"><span class="nav-number">3.6.</span> <span class="nav-text">初级救砖</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">蜀ICP备18029083号 </a>&copy; 2019 – <span itemprop="copyrightYear">2022</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">子墨</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">167k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    
+    <span title="站点阅读时长">2:32</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+  <!-- 网站运行时间的设置 -->
+  <div>
+    <span id="runTime">载入网站运行时间中...</span>
+  </div>
+  <script>
+      // 网站运行时间
+      function webSiteRunTime() {
+          var grt = new Date('2019-08-07 17:03');// 建站时间
+          var now = new Date();
+          days = (now - grt) / 1000 / 60 / 60 / 24;
+          dnum = Math.floor(days);
+          hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum);
+          hnum = Math.floor(hours);
+          if(String(hnum).length == 1) {
+              hnum = "0" + hnum;
+          }
+          minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
+          mnum = Math.floor(minutes);
+          if(String(mnum).length == 1) {
+              mnum = "0" + mnum;
+          }
+          seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+          snum = Math.floor(seconds);
+          if(String(snum).length == 1) {
+              snum = "0" + snum;
+          }
+          document.getElementById("runTime").innerHTML = "本站已安全运行 " + dnum + " 天 " + hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+      }
+      setInterval("webSiteRunTime()",1000);
+  </script>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+  <!-- 网站cdn加速图标 -->
+  <div style="display: inline-block;">
+    <a style="filter: drop-shadow(0 0 0.1em #222);display: block;width: 112px;height: 24px;background: url(//yjsstatic.baidu.com//app/img/logo_baiduanquan_navbar_web.svg) no-repeat center center;" href="https://su.baidu.com/" target="_blank"></a>
+  </div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+
+    
+  
+<script src="/lib/needsharebutton/needsharebutton.js"></script>
+<script>
+    pbOptions = {};
+      pbOptions.iconStyle = "box";
+    
+      pbOptions.boxForm = "horizontal";
+    
+      pbOptions.position = "bottomCenter";
+    
+      pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+    
+    new needShareButton('#needsharebutton-postbottom', pbOptions);
+</script>
+
+
+  </div>
+
+  
+    
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+
+
+  
+  <script>
+    /*(function(){
+      console.log('执行了吗');
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();*/
+    (function() {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+    
+<script>
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+ 
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
